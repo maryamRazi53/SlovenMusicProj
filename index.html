@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project Music – Step-by-step guide</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎧%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+<style>
+:root{--bg:#f4f5fb;--panel:#fff;--ink:#22254b;--mute:#5b5f8f;--line:#d9dbef;--code:#22254b;--codeink:#e8e9ff;--hi:#3b3f8f;--g:#1a8f4a;--o:#c77700;--r:#d12f2f;--new:rgba(80,200,120,.22);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171a3a;--panel:#22254b;--ink:#eceeff;--mute:#9ea3df;--line:#373b69;--code:#11132b;--hi:#8f95ff;--g:#7be0a2;--o:#ffb347;--r:#ff6b6b}}
+:root[data-theme="dark"]{--bg:#171a3a;--panel:#22254b;--ink:#eceeff;--mute:#9ea3df;--line:#373b69;--code:#11132b;--hi:#8f95ff;--g:#7be0a2;--o:#ffb347;--r:#ff6b6b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 Poppins,system-ui,sans-serif}
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;max-width:1100px;margin:0 auto;padding:24px 16px 64px}
+nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start}
+nav h1{font-size:1.15rem;margin:0 0 4px;font-weight:600}
+nav p{margin:0 0 14px;color:var(--mute);font-size:.85rem}
+.bar{display:flex;gap:4px;margin-bottom:14px}
+.bar i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.bar i.on{background:var(--g)}
+nav ol{list-style:none;margin:0;padding:0}
+nav a{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:.9rem}
+nav a:hover{background:var(--panel)}
+nav a.cur{background:var(--panel);box-shadow:inset 3px 0 var(--hi);font-weight:600}
+nav a b{min-width:26px;text-align:center;border-radius:4px;background:var(--panel);border:1px solid var(--line);font-size:.78rem;padding:1px 0}
+nav a.done b{background:var(--g);border-color:var(--g);color:#fff}
+.step{display:none}
+.step.show{display:block}
+h2{font-size:1.7rem;line-height:1.25;margin:0 0 6px;font-weight:600}
+.goal{border-left:4px solid var(--g);background:var(--panel);padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0 22px}
+h3{font-size:1.05rem;margin:26px 0 6px}
+p,li{max-width:70ch}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em}
+p code,li code{background:var(--panel);border:1px solid var(--line);padding:1px 5px;border-radius:4px}
+figure{margin:12px 0;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--code);color:var(--codeink)}
+figcaption{display:flex;justify-content:space-between;align-items:center;padding:6px 12px;background:var(--line);color:var(--ink);font-size:.8rem}
+figcaption button{font:inherit;border:0;border-radius:6px;padding:3px 10px;background:var(--hi);color:#fff;cursor:pointer}
+pre{margin:0;padding:12px 14px;overflow-x:auto;line-height:1.55}
+pre code b{font-weight:400;background:var(--new);display:inline-block;width:100%}
+.task{display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:22px 0;cursor:pointer}
+.task input{margin-top:6px;width:18px;height:18px;accent-color:var(--g)}
+details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0}
+summary{cursor:pointer;font-weight:600}
+.pn{display:flex;justify-content:space-between;gap:10px;margin-top:34px}
+.pn button{font:inherit;border:1px solid var(--hi);background:transparent;color:var(--ink);padding:8px 18px;border-radius:8px;cursor:pointer}
+.pn button.go{background:var(--hi);color:#fff}
+.mermaid{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+@media (max-width:820px){.wrap{grid-template-columns:1fr}nav{position:static}nav ol{display:flex;overflow-x:auto;gap:4px}nav a{white-space:nowrap}nav a span{display:none}}
+.shots{border-style:dashed}
+.shots summary{color:var(--hi)}
+.shot{background:var(--panel);color:var(--ink);margin:14px 0}
+.shot img{display:block;width:100%;height:auto;cursor:zoom-in}
+.shot img.big{position:fixed;inset:0;margin:auto;width:auto;max-width:96vw;max-height:94vh;z-index:50;cursor:zoom-out;box-shadow:0 0 0 100vmax rgba(0,0,0,.85);background:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav aria-label="Steps">
+<h1>🎧 Project Music</h1>
+<p>Build a music player app with the iTunes Search API.</p>
+<div class="bar" id="bar"></div>
+<ol id="menu"></ol>
+</nav>
+<main>
+
+<section class="step" id="s1">
+<h2>Open the starter project</h2>
+<div class="goal"><b>Goal:</b> the starter files are open in Visual Studio Code and the page shows in your browser.</div>
+<ol><li>Unzip the file you received from your teacher.</li><li>In VS Code choose <code>File ▸ Open Folder</code> and select the unzipped folder.</li><li>Right-click <code>index.html</code> and choose <code>Open with Live Server</code>.</li></ol>
+<figure><figcaption>Project structure</figcaption><pre><code>project-music/
+├─ index.html
+├─ css/style.css
+├─ js/script.js
+└─ image/cover.svg</code></pre></figure>
+<p>You will edit <code>index.html</code> and <code>js/script.js</code>. The CSS is already done. You need an internet connection, because the songs come from the web.</p><label class="task"><input type="checkbox" data-t="1"><span>I see one grey card and a search box.</span></label>
+</section>
+<section class="step" id="s2">
+<h2>Meet the API</h2>
+<div class="goal"><b>Goal:</b> you have seen the song data in your browser. No key and no account needed.</div>
+<p>An API is a web address that returns <b>data</b> instead of a web page. Apple’s iTunes Search API is free and needs no key. Paste this address into a new browser tab:</p>
+<figure><figcaption>Address bar</figcaption><pre><code>https://itunes.apple.com/search?media=music&amp;entity=song&amp;limit=5&amp;term=pop</code></pre></figure>
+<ul><li><code>media=music&amp;entity=song</code> asks for songs only.</li><li><code>limit=5</code> asks for 5 results.</li><li><code>term=pop</code> is the search word.</li></ul>
+<p>Look at one result. These four fields are the ones we need:</p>
+<ul><li><code>trackName</code>: the song title</li><li><code>artistName</code>: the artist</li><li><code>artworkUrl100</code>: the cover image (100 × 100 pixels)</li><li><code>previewUrl</code>: an audio file with a <b>30-second preview</b> of the song</li></ul>
+<p>Open <code>js/script.js</code>. Your starter file already holds the address, split in two parts:</p>
+<figure><figcaption>js/script.js (already in your starter file)</figcaption><pre><code>const SEARCH_URL = 'https://itunes.apple.com/search?media=music&amp;entity=song&amp;limit=20&amp;term=';
+const START_TERM = 'pop';</code></pre></figure><label class="task"><input type="checkbox" data-t="2"><span>I opened the address and saw songs with a <code>previewUrl</code>.</span></label>
+</section>
+<section class="step" id="s3">
+<h2>Build one music card</h2>
+<div class="goal"><b>Goal:</b> the card has a working audio player.</div>
+<p>Open <code>index.html</code>. Add an <code>&lt;audio&gt;</code> element under the song info. It shows a play button, a time bar and a volume control, all by itself.</p>
+<figure><figcaption>index.html<button type="button">Copy</button></figcaption><pre><code>&lt;div class="song"&gt;
+  &lt;img src="image/cover.svg" alt=""&gt;
+  &lt;div class="song-info"&gt;
+    &lt;h3&gt;Song title&lt;/h3&gt;
+    &lt;p&gt;Artist name&lt;/p&gt;
+  &lt;/div&gt;
+<b>&lt;audio controls src=""&gt;&lt;/audio&gt;</b>
+&lt;/div&gt;</code></pre></figure><p>The <code>src</code> is empty for now. The program will fill it in later. This card is the template for every song: an <b>image</b>, a <b>title</b>, an <b>artist</b> and a <b>player</b>.</p><label class="task"><input type="checkbox" data-t="3"><span>I see the player at the bottom of the card.</span></label>
+</section>
+<section class="step" id="s4">
+<h2>Fetch the data</h2>
+<div class="goal"><b>Goal:</b> the Console shows a list of 20 songs.</div>
+<pre class="mermaid">flowchart LR
+A[Your page] -- fetch --> B[iTunes server]
+B -- JSON --> A
+A -- showSongs --> C[Song cards]</pre>
+<p>Add this under the two constants in <code>script.js</code>:</p>
+<figure><figcaption>js/script.js<button type="button">Copy</button></figcaption><pre><code>const main = document.getElementById('main');
+const search = document.getElementById('search');
+const form = document.getElementById('form');
+
+getSongs(SEARCH_URL + START_TERM);
+
+async function getSongs(url) {
+  const res = await fetch(url);      // ask the server
+  const data = await res.json();     // convert the answer to JSON
+  console.log(data.results);         // the list of songs
+}</code></pre></figure><p>Save, press <kbd>F12</kbd> and open the <b>Console</b> tab. Open the array and look at one song.</p>
+<details><summary>The Console shows an error</summary><ul><li><b>getSongs is not defined</b>: check the spelling, including the capital S.</li><li><b>Nothing happens</b>: check that <code>index.html</code> has <code>&lt;script src="js/script.js"&gt;</code> at the bottom.</li><li><b>Failed to fetch</b>: check your internet connection. If you searched many times in a minute, wait a bit and try again.</li></ul></details><label class="task"><input type="checkbox" data-t="4"><span>I can see the songs in the Console.</span></label>
+</section>
+<section class="step" id="s5">
+<h2>Show the songs on the page</h2>
+<div class="goal"><b>Goal:</b> 20 cards with covers, titles, artists and a working player.</div>
+<p><b>1.</b> Change <code>getSongs</code> so it calls a new function:</p>
+<figure><figcaption>js/script.js<button type="button">Copy</button></figcaption><pre><code>async function getSongs(url) {
+  const res = await fetch(url);
+  const data = await res.json();
+<b>showSongs(data.results);</b>
+}</code></pre></figure><p><b>2.</b> Add the new function at the bottom of the file:</p>
+<figure><figcaption>js/script.js<button type="button">Copy</button></figcaption><pre><code>function showSongs(songs) {
+  main.innerHTML = '';                       // empty the page first
+
+  songs.forEach(song =&gt; {
+    const { trackName, artistName, artworkUrl100, previewUrl } = song;
+    const bigCover = artworkUrl100.replace('100x100', '300x300');
+
+    const songEl = document.createElement('div');
+    songEl.classList.add('song');
+    songEl.innerHTML = `
+      &lt;img src="${bigCover}" alt="${trackName}"&gt;
+      &lt;div class="song-info"&gt;
+        &lt;h3&gt;${trackName}&lt;/h3&gt;
+        &lt;p&gt;${artistName}&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;audio controls src="${previewUrl}"&gt;&lt;/audio&gt;`;
+    main.appendChild(songEl);
+  });
+}</code></pre></figure><p>The cover address contains <code>100x100</code>. Replacing it with <code>300x300</code> gives you a sharper picture. The backticks ( ` ) let you put variables inside text with <code>${…}</code>.</p>
+<details><summary>I see the cards but nothing plays</summary><p>Check that the <code>&lt;audio&gt;</code> line is inside the backticks and that you wrote <code>src="${previewUrl}"</code>. Not every browser plays every file type, so try Chrome or Edge.</p></details><label class="task"><input type="checkbox" data-t="5"><span>My page shows real songs and I can play a preview.</span></label>
+</section>
+<section class="step" id="s6">
+<h2>Make the search work</h2>
+<div class="goal"><b>Goal:</b> type an artist or a song, press Enter, and the results change.</div>
+<p>Add this at the bottom of <code>script.js</code>:</p>
+<figure><figcaption>js/script.js<button type="button">Copy</button></figcaption><pre><code>form.addEventListener('submit', (e) =&gt; {
+  e.preventDefault();                  // stop the page from reloading
+  const searchTerm = search.value.trim();
+
+  if (searchTerm !== '') {
+    getSongs(SEARCH_URL + encodeURIComponent(searchTerm));
+    search.value = '';
+  } else {
+    window.location.reload();          // empty search: back to the start
+  }
+});</code></pre></figure><p><code>encodeURIComponent</code> turns spaces and special characters into a safe form for a web address, so “taylor swift” also works.</p><label class="task"><input type="checkbox" data-t="6"><span>I searched for an artist and the songs changed.</span></label>
+</section>
+<section class="step" id="s7">
+<h2>Challenges</h2>
+<div class="goal"><b>Goal:</b> change the app on your own. Pick at least one.</div>
+<ol><li><b>One song at a time.</b> Pause the other players when a new song starts:</li></ol>
+<figure><figcaption>js/script.js<button type="button">Copy</button></figcaption><pre><code>document.addEventListener('play', (e) =&gt; {
+  document.querySelectorAll('audio').forEach(a =&gt; {
+    if (a !== e.target) a.pause();
+  });
+}, true);</code></pre></figure><ol start="2"><li>Show how many songs were found (<code>data.resultCount</code>).</li><li>Add a link under each song to <code>trackViewUrl</code> that opens the song in Apple Music.</li><li>Add a drop-down with genres (pop, rock, jazz…) that sets the search term.</li><li><b>Bigger project:</b> use the <a href="https://developer.jamendo.com" target="_blank" rel="noopener">Jamendo API</a> instead. It has full-length songs under Creative Commons licences. You need a free <code>client_id</code>. Only offer a download link when <code>audiodownload_allowed</code> is true.</li></ol>
+<p>Well done, you built a music player with live data. 🎉</p>
+</section>
+<div class="pn"><button type="button" id="prev">Previous</button><button type="button" id="next" class="go">Next step</button></div>
+</main>
+</div>
+<script>
+(function(){
+var steps=[].slice.call(document.querySelectorAll('.step')),
+ names=['Open the project','Meet the API','Build a card','Fetch the data','Show the songs','Search','Challenges'],
+ menu=document.getElementById('menu'),bar=document.getElementById('bar'),cur=0,done={};
+try{done=JSON.parse(localStorage.getItem('pmusic-done')||'{}')||{}}catch(e){done={}}
+function save(){try{localStorage.setItem('pmusic-done',JSON.stringify(done))}catch(e){}}
+names.forEach(function(n,i){
+ var li=document.createElement('li'),a=document.createElement('a');
+ a.href='#s'+(i+1);a.innerHTML='<b>'+(i+1)+'</b><span>'+n+'</span>';
+ li.appendChild(a);menu.appendChild(li);
+ var t=document.createElement('i');bar.appendChild(t);
+});
+function paint(){
+ steps.forEach(function(s,i){s.classList.toggle('show',i===cur)});
+ [].forEach.call(menu.querySelectorAll('a'),function(a,i){
+  a.classList.toggle('cur',i===cur);a.classList.toggle('done',!!done['s'+(i+1)]);
+  if(i===cur)a.setAttribute('aria-current','step');else a.removeAttribute('aria-current')});
+ [].forEach.call(bar.children,function(t,i){t.classList.toggle('on',!!done['s'+(i+1)])});
+ document.getElementById('prev').style.visibility=cur?'visible':'hidden';
+ document.getElementById('next').style.visibility=cur<steps.length-1?'visible':'hidden';
+}
+function go(i){cur=Math.max(0,Math.min(steps.length-1,i));if(location.hash!=='#s'+(cur+1))location.hash='s'+(cur+1);paint();window.scrollTo(0,0)}
+function fromHash(){var m=/^#s(\d+)$/.exec(location.hash);cur=m?Math.max(0,Math.min(steps.length-1,m[1]-1)):0;paint()}
+window.addEventListener('hashchange',fromHash);
+document.getElementById('prev').onclick=function(){go(cur-1)};
+document.getElementById('next').onclick=function(){go(cur+1)};
+[].forEach.call(document.querySelectorAll('.task input'),function(c){
+ var k='s'+c.dataset.t;c.checked=!!done[k];
+ c.onchange=function(){if(c.checked)done[k]=1;else delete done[k];save();paint()}});
+[].forEach.call(document.querySelectorAll('figcaption button'),function(b){
+ b.onclick=function(){
+  var txt=b.closest('figure').querySelector('pre').textContent;
+  function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500)}
+  if(navigator.clipboard)navigator.clipboard.writeText(txt).then(ok,function(){});
+ }});
+[].forEach.call(document.querySelectorAll('.shot img'),function(i){i.onclick=function(){i.classList.toggle('big')}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')[].forEach.call(document.querySelectorAll('.shot img.big'),function(i){i.classList.remove('big')})});
+fromHash();
+})();
+</script>
+
+<!--claude-mermaid-runtime-begin:3477-->
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+<script src="/_runtime/mermaid-11.16.1.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+<!--claude-mermaid-runtime-end-->
+</body>
+</html>
